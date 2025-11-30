@@ -33,7 +33,32 @@ while in the high end simulations become meshless large eddy simulations.
 * *Documentation:* [flow.byu.edu/FLOWUnsteady](https://flow.byu.edu/FLOWUnsteady)
 * *Code:* [github.com/byuflowlab/FLOWUnsteady](https://github.com/byuflowlab/FLOWUnsteady)
 
-NOTE (28 Aug 2025): The documentation is temporarily unavailable due to server issues. See the examples/ and docs/ folder in the meantime. It should be back up in the next few days.
+### Installation
+
+FLOWUnsteady is a [Julia](https://julialang.org/) package. To install:
+
+1. **Install Julia 1.6 or later** from [julialang.org](https://julialang.org/downloads/)
+
+2. **Clone this repository:**
+   ```bash
+   git clone https://github.com/byuflowlab/FLOWUnsteady.git
+   cd FLOWUnsteady
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   julia --project -e "using Pkg; Pkg.instantiate()"
+   ```
+
+4. **Run tests to verify installation:**
+   ```bash
+   julia --project -e "using Pkg; Pkg.test()"
+   ```
+
+5. **Try an example:**
+   ```bash
+   julia --project examples/propeller1.jl
+   ```
 
 ### What is the Reformulated VPM?
 
