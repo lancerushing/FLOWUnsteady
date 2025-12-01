@@ -1,0 +1,46 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+docs/build/
+*.md
+!CLAUDE.md
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Julia artifacts and build files
+Manifest.toml
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+deps/deps.jl
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test outputs and temporary files
+test/outputs/
+tmp/
+*.tmp
+
+# Claude Code configuration
+.claude/
+
+# Docker files (no need to copy these into the image)
+Dockerfile
+docker compose.yml
+.dockerignore

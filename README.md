@@ -35,30 +35,53 @@ while in the high end simulations become meshless large eddy simulations.
 
 ### Installation
 
-FLOWUnsteady is a [Julia](https://julialang.org/) package. To install:
+FLOWUnsteady is a [Julia](https://julialang.org/) package with complex dependencies, including unregistered packages and external C++ libraries.
 
-1. **Install Julia 1.6 or later** from [julialang.org](https://julialang.org/downloads/)
+**For detailed installation instructions**, please see the [official documentation](https://flow.byu.edu/FLOWUnsteady/installation/). The installation process includes:
 
-2. **Clone this repository:**
-   ```bash
-   git clone https://github.com/byuflowlab/FLOWUnsteady.git
-   cd FLOWUnsteady
-   ```
+1. Installing Julia 1.6 or later
+2. Installing external tools (CMake, GCC, OpenMP)
+3. Compiling the ExaFMM C++ library for fast multipole acceleration
+4. Installing unregistered FLOW Lab packages
+5. Setting up Python dependencies (for airfoil tools)
 
-3. **Install dependencies:**
-   ```bash
-   julia --project -e "using Pkg; Pkg.instantiate()"
-   ```
+**Quick reference for developers:**
 
-4. **Run tests to verify installation:**
-   ```bash
-   julia --project -e "using Pkg; Pkg.test()"
-   ```
+After following the full installation guide, you can verify your setup:
 
-5. **Try an example:**
-   ```bash
-   julia --project examples/propeller1.jl
-   ```
+```bash
+# Run tests
+julia --project -e "using Pkg; Pkg.test()"
+
+# Try an example
+julia --project -e "import FLOWUnsteady as uns; include(joinpath(uns.examples_path, \"propeller\", \"propeller1.jl\"))"
+```
+
+**Note:** The `Pkg.instantiate()` command alone is insufficient due to unregistered packages. Please consult the [installation documentation](https://flow.byu.edu/FLOWUnsteady/installation/) for complete setup instructions.
+
+#### Docker Installation (Alternative)
+
+For a containerized development environment with all system dependencies pre-installed, use Docker:
+
+```bash
+# Start the container with Julia and system dependencies
+docker compose up -d
+
+# Enter the container shell
+docker compose exec flowunsteady bash
+
+# Inside the container, install Julia packages
+julia --project -e "using Pkg; Pkg.instantiate()"
+
+# Run tests
+julia --project -e "using Pkg; Pkg.test()"
+```
+
+The `docker compose.yml` includes:
+- Julia 1.12.2 (Debian Trixie base)
+- CMake, GCC, OpenMPI for compiling ExaFMM
+- Python 3.11 (compatible with AirfoilPrep requirements)
+- Required Python packages (matplotlib, scipy, mpmath)
 
 ### What is the Reformulated VPM?
 

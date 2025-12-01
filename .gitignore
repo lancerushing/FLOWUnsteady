@@ -9,3 +9,5 @@ docs/site/
 examples/rotornoise/singlerotor-*
 docs/resources/images/sponsors/*.png
 docs/src/assets/images/sponsors/*.png
+
+.julia/
