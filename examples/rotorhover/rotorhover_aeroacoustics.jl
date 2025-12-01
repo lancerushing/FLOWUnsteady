@@ -12,8 +12,10 @@ We load FLOWUnsteady and the `FLOWUnsteady.noise` module:
 import FLOWUnsteady as uns
 import FLOWUnsteady: gt, vlm, noise
 
+const PROJECT_DIR = dirname(Base.active_project())
+
 # Path where to read and save simulation data
-sims_path = "/media/edoalvar/T7/simulationdata202304"
+sims_path = joinpath(PROJECT_DIR, "simulationdata")
 
 #=##############################################################################
 # Tonal Noise
@@ -30,13 +32,16 @@ is then called to read the case and propagate the noise to a set of observers
 (microphones). The PSU-WOPWOP solution is then written to the same case folder.
 =###############################################################################
 # Path from where to read aerodynamic solution
-read_path       = joinpath(sims_path, "rotorhover-example-midhigh00") # <-- This must point to you aero simulation
+read_path       = joinpath(sims_path, "rotorhover") # <-- This must point to you aero simulation
 
 # Path where to save PSU-WOPWOP outputs
 save_ww_path    = read_path*"-pww/"
 
+mkpath(save_ww_path)
+
+
 # Path to PSU-WOPWOP binary (not included in FLOWUnsteady)
-wopwopbin       = "/home/edoalvar/Dropbox/WhisperAero/OtherCodes/PSU-WOPWOP_v3.4.4/wopwop3_linux_serial"
+wopwopbin       =  joinpath(PROJECT_DIR, "PSU-WOPWOP/wopwop3")
 
 # Run name (prefix of rotor files to read)
 run_name        = "singlerotor"
