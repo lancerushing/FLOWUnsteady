@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  flowunsteady:
+    build: .
+    image: flowunsteady:dev
+    container_name: flowunsteady-dev
+    volumes:
+      - .:/workspace/FLOWUnsteady
+      - ./.julia:/root/.julia
+    stdin_open: true
+    tty: true
+    # Interactive bash shell for development
+    command: /bin/bash

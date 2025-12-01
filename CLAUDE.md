@@ -15,6 +15,90 @@ The codebase is written in **Julia** and integrates multiple aerodynamic modelin
 - **Run specific test file**: `julia --project test/test_sweptwing.jl`
 - **Run tests from REPL**: Start Julia with `julia --project`, then `using Pkg; Pkg.test()`
 
+### Known Issues
+
+**Python 3.12+ Incompatibility**: The `AirfoilPrep` dependency uses Python's deprecated `imp` module which was removed in Python 3.12. If you have Python 3.12+:
+- Use Python 3.11 or earlier with PyCall: `ENV["PYTHON"] = "/usr/bin/python3.11"; Pkg.build("PyCall")`
+- Or wait for AirfoilPrep to be updated to use `importlib` instead of `imp`
+
+### Docker Development Environment
+
+Docker provides a consistent development environment with all system dependencies pre-installed. This is the **recommended approach** for new developers or those with Python 3.12+ installed.
+
+#### Quick Setup
+
+Run the automated setup script to build the image and install Julia packages:
+
+```bash
+./docker-setup.sh
+```
+
+This builds a custom Docker image with:
+- Julia 1.12.2 on Debian Trixie
+- Build tools (CMake, GCC, OpenMPI) for ExaFMM compilation
+- Python 3.11 (compatible with AirfoilPrep)
+- Required Python packages (matplotlib, scipy, mpmath)
+
+#### Interactive Development Workflow
+
+For active development with a persistent container:
+
+```bash
+# Build and start container
+docker compose up -d
+
+# Enter interactive shell
+docker compose exec flowunsteady bash
+
+# Inside container: install Julia packages (if not done during setup)
+julia --project setup.jl
+
+# Run tests
+julia --project -e "using Pkg; Pkg.test()"
+
+# Stop container when done
+docker compose down
+```
+
+Your local directory is mounted at `/workspace/FLOWUnsteady`, so all changes are synced between host and container.
+
+#### One-Off Script Execution
+
+For running individual scripts without a persistent container (follows [Julia Docker Hub best practices](https://hub.docker.com/_/julia)):
+
+```bash
+# Run an example
+docker compose run --rm flowunsteady julia --project examples/propeller1.jl
+
+# Run a specific test
+docker compose run --rm flowunsteady julia --project test/test_sweptwing.jl
+
+# Run tests
+docker compose run --rm flowunsteady julia --project -e "using Pkg; Pkg.test()"
+
+# Interactive REPL
+docker compose run --rm flowunsteady julia --project
+```
+
+The `--rm` flag automatically removes the container after execution, keeping your system clean.
+
+#### Manual Setup (Alternative)
+
+If you prefer manual setup without the automated script:
+
+```bash
+# Build the image
+docker compose build
+
+# Install Julia packages
+docker compose run --rm flowunsteady julia --project setup.jl
+
+# Or install packages interactively
+docker compose up -d
+docker compose exec flowunsteady bash
+julia --project setup.jl
+```
+
 ### Documentation
 - **Compile docs**: `cd docs && julia make.jl` (requires Documenter v0.27.25)
 - **Launch docs locally**: `julia -e "using LiveServer; serve(dir=\"docs/build\")"` (requires LiveServer)
