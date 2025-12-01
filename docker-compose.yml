@@ -1,14 +1,20 @@
-version: '3.8'
-
 services:
   flowunsteady:
     build: .
     image: flowunsteady:dev
     container_name: flowunsteady-dev
+    # Supports X11 sharing via wayland. (other wm's not tested, yet)
+    environment:
+      - DISPLAY=$DISPLAY
+      - WAYLAND_DISPLAY=$WAYLAND_DISPLAY
+      - XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
     volumes:
       - .:/workspace/FLOWUnsteady
-      - ./.julia:/root/.julia
+      - ./.julia:/home/appuser/.julia:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
     stdin_open: true
+    
     tty: true
     # Interactive bash shell for development
     command: /bin/bash

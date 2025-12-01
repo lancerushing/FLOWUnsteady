@@ -41,7 +41,7 @@ mkpath(save_ww_path)
 
 
 # Path to PSU-WOPWOP binary (not included in FLOWUnsteady)
-wopwopbin       =  joinpath(PROJECT_DIR, "PSU-WOPWOP/wopwop3")
+wopwopbin       =  joinpath(PROJECT_DIR, "PSU_WOPWOP/wopwop3")
 
 # Run name (prefix of rotor files to read)
 run_name        = "singlerotor"

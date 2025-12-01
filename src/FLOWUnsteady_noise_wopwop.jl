@@ -190,7 +190,7 @@ try
     close(f)
 
     # Create directory of case to run
-    mkdir(case_name)
+    mkpath(case_name)
 
     # String of VTKs
     prv_str = case_name*"/"
