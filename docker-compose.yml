@@ -14,6 +14,10 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
     stdin_open: true
+    deploy:
+      resources:
+        reservations:
+          cpus: '4'
     
     tty: true
     # Interactive bash shell for development

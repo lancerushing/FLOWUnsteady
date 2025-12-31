@@ -25,8 +25,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo ""
     echo "Installing Julia packages..."
     echo ""
-
-    docker compose run --rm flowunsteady julia --project setup.jl
+    
+    mkdir -p .julia
+    docker compose run --rm --user $(id -u):$(id -g) flowunsteady julia --project setup.jl
 
     echo ""
     echo "========================================="
@@ -36,9 +37,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Start the development container with:"
     echo "  docker compose up -d"
     echo "  docker compose exec flowunsteady bash"
-    echo ""
-    echo "Or run examples directly:"
-    echo "  docker compose run --rm flowunsteady julia --project examples/propeller1.jl"
     echo ""
 else
     echo ""

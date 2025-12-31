@@ -5,13 +5,13 @@ Pkg.instantiate()
 
 println("\nStep 2: Installing custom FLOW Lab packages...")
 url = "https://github.com/byuflowlab/"
-packages = [
-    ("AirfoilPrep.jl", "v2.1.2"),
-    ("FLOWVLM", "v2.1.3"),
-    ("FLOWNoise", "v2.3.3"),
-    ("BPM.jl", "v2.0.1")
-]
-Pkg.add([Pkg.PackageSpec(; url=url*name, rev=v) for (name, v) in packages])
+
+packages = [ "AirfoilPrep.jl", "FLOWVLM", "FLOWNoise", "BPM.jl", "FLOWVPM.jl"]
+Pkg.add([ Pkg.PackageSpec(; url=url*name) for name in packages ])
+
+
+Pkg.add([ Pkg.PackageSpec(; url="https://github.com/byuflowlab/BPM.jl") for name in packages ])
+
 
 
 println("\n✓ Package installation complete!")

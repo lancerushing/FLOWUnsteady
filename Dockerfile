@@ -10,6 +10,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3.11 \
         python3-pip \
+        cmake g++ libopenmpi-dev mpich \
         git \
         python3-matplotlib python3-mpmath python3-scipy \
         paraview
