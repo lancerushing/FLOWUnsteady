@@ -60,13 +60,17 @@ import FLOWVLM as vlm
 import FLOWVPM as vpm
 
 run_name        = "rotorhover-example"      # Name of this simulation
-save_path       = run_name                  # Where to save this simulation
+save_path       = joinpath("output", run_name)                  # Where to save this simulation
 paraview        = true                      # Whether to visualize with Paraview
 
 # Uncomment this to have the folder named after this file instead
-# save_path     = String(split(@__FILE__, ".")[1])
-# run_name      = "singlerotor"
+save_path     = String(split(@__FILE__, ".")[1])
+run_name      = "singlerotor"
 # paraview      = false
+
+mkpath(save_path)
+println("save_path: ", save_path)
+
 # ----------------- GEOMETRY PARAMETERS ----------------------------------------
 
 # Rotor geometry

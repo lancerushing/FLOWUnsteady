@@ -82,6 +82,9 @@ if const_solution                       # If constant solution, it overrides to 
     num_min     = 1
 end
 
+## overrides
+num_min=1
+
 
 # PSU-WOPWOP parameters
 ww_nrevs        = 18                     # Number of revolutions in PSU-WOPWOP (18 revs at 5400 RPM gives fbin = 5 Hz)
@@ -122,6 +125,15 @@ anglemic        = 90*pi/180            # (rad) microphone angle from plane of ro
                                        # 0deg is at the plane of rotation, 90deg is upstream
 microphoneX     = nothing              # Comment and uncomment this to switch from array to single microphone
 # microphoneX   = Rmic*[-sin(anglemic), cos(anglemic), 0]
+
+
+println("read_path $(read_path)")
+println("RPM $(RPM)")
+println("rho $(rho)")
+println("rotorsystems $(rotorsystems)")
+println("ww_nrevs $(ww_nrevs)")
+println("nsteps_per_rev $(ww_nsteps_per_rev)")
+println("num_min $(num_min)")
 
 
 # ------------ RUN PSU-WOPWOP ----------------------------------------------
@@ -199,7 +211,7 @@ vtk_str = noise.save_geomwopwop2vtk(read_ww_path, save_vtk_path)
 println("Generated the following files:\n\t$(vtk_str)")
 
 # Call Paraview to visualize VTKs
-run(`paraview --data=$(vtk_str)`)
+# run(`paraview --data=$(vtk_str)`)
 
 #=##############################################################################
 # Broadband Noise
@@ -208,7 +220,7 @@ Now, we calculate the broadband noise from non-deterministic sources through
 BPM. This is done calling [`uns.run_noise_bpm`](@ref) as follows:
 =###############################################################################
 # Path where to save BPM outputs
-save_bpm_path   = joinpath(sims_path, "rotorhover-example-midhigh00-bpm")
+save_bpm_path   = joinpath(sims_path, "rotorhover-bpm")
 
 # ------------ PARAMETERS --------------------------------------------------
 # NOTE: Make sure that these parameters match what was used in the
@@ -298,8 +310,8 @@ We start by reading the outputs from PSU-WOPWOP and BPM:
 # Dataset to read and associated information
 dataset_infos = [ # (label, PWW solution, BPM solution, line style, color)
                     ("FLOWUnsteady",
-                        joinpath(sims_path, "rotorhover-example-midhigh00-pww/runcase/"),
-                        joinpath(sims_path, "rotorhover-example-midhigh00-bpm"),
+                        joinpath(sims_path, "rotorhover-pww/runcase/"),
+                        joinpath(sims_path, "rotorhover-bpm"),
                         "-", "steelblue"),
                 ]
 
@@ -310,6 +322,8 @@ datasets_bpm = Dict()     # Stores BPM data in this dictionary
 noise.read_data(dataset_infos; datasets_pww=datasets_pww, datasets_bpm=datasets_bpm)
 
 println("Done!")
+
+println("Generated the following files:\n\t$(vtk_str)")
 
 #=
 Also, we need to recreate the circular array of microphones that was used when
